@@ -7,4 +7,7 @@ public class URLConstant {
 	
 	public static final String BAOJING_CORPID = "wx4ffd7354272f0103";
 	public static final String BAOJING_CORPSECRET = "vbVxMsn3XBGF0c-72PAHwbiUTGcQU6yn6S4I6pcBEhkWEuXF0lSN6EgRGYi3ZHGk";
+	public static final String BAOJING_EncodingAESKey="Jr2Jj2eDSaGkeURAQXR1UbdSNPQZW5pGDD67OF43d8w";
+	public static final String BAOJING_Token= "nRcC7aosykrShHaUgDC";
+	
 }
