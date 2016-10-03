@@ -11,6 +11,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import cn.com.czcb.wxcorp.constant.URLConstant;
 import cn.com.czcb.wxcorp.dao.AccessTokenDao;
@@ -21,16 +23,18 @@ import cn.com.czcb.wxcorp.pojo.Text;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class PushMsgService {
+@Service
+public class MsgPushService {
 	
+	@Autowired
 	private AccessTokenDao  accessTokenDao;
 	
 	public void pushMsg(PushMsgTextMsg txtMsg) throws ClientProtocolException, IOException{
 		
-		AccessToken accessToken = accessTokenDao.getFromFile();
+		String accessToken = accessTokenDao.getFromFile();
 		
 		CloseableHttpClient httpClient = HttpClients.createDefault();
-		String url = URLConstant.MSG_SEND + accessToken.getAccessToken();
+		String url = URLConstant.MSG_SEND + accessToken;
         HttpPost post = new HttpPost(url);
         
 //        PushMsgTextMsg txtMsg = new PushMsgTextMsg();
