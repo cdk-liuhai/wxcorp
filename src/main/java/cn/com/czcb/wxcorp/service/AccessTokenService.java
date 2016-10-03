@@ -13,9 +13,9 @@ import org.apache.http.util.EntityUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import cn.com.czcb.wxcorp.constant.URLConstant;
 import cn.com.czcb.wxcorp.dao.AccessTokenDao;
 import cn.com.czcb.wxcorp.pojo.AccessToken;
-import cn.com.czcb.wxcorp.pojo.constant.URLConstant;
 
 public class AccessTokenService {
 	private AccessTokenDao accessTokenDao;

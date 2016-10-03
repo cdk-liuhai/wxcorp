@@ -12,11 +12,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import cn.com.czcb.wxcorp.constant.URLConstant;
 import cn.com.czcb.wxcorp.dao.AccessTokenDao;
 import cn.com.czcb.wxcorp.pojo.AccessToken;
 import cn.com.czcb.wxcorp.pojo.PushMsgTextMsg;
 import cn.com.czcb.wxcorp.pojo.Text;
-import cn.com.czcb.wxcorp.pojo.constant.URLConstant;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
