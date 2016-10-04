@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.com.czcb.wxcorp.pojo.PushMsgTextMsg;
+import cn.com.czcb.wxcorp.pojo.WxPushMsgTextMsgReq;
 import cn.com.czcb.wxcorp.service.AccessTokenService;
 import cn.com.czcb.wxcorp.service.MsgPushService;
 
@@ -25,7 +25,7 @@ public class MessageController {
 	@RequestMapping("/msg/push")
 	public void pushTextMsg(){
 		try {
-			pushService.pushMsg(new PushMsgTextMsg());
+			pushService.pushMsg(new WxPushMsgTextMsgReq());
 		} catch (ClientProtocolException e) {
 			logger.error(e);
 		} catch (IOException e) {
