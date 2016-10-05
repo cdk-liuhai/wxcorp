@@ -40,14 +40,28 @@ public class TestMsgPushService {
 	}
 	
 	@Test
-	public void pushService() throws JsonParseException, JsonMappingException, IOException{
+	public void pushServiceAll() throws JsonParseException, JsonMappingException, IOException{
 		WxPushMsgTextMsgReq txtMsg = new WxPushMsgTextMsgReq();
         txtMsg.setAgentid(1);
         txtMsg.setMsgtype("text");
         Text txt = new Text();
-        txt.setContent("推送测试textaaaaa");
+        txt.setContent("宋老板，推送测试English");
         txtMsg.setText(txt);
         txtMsg.setTouser("@all");
+		pushService.pushMsg(txtMsg);
+	}
+	
+	@Test
+	public void pushServiceOne() throws JsonParseException, JsonMappingException, IOException{
+		WxPushMsgTextMsgReq txtMsg = new WxPushMsgTextMsgReq();
+        txtMsg.setAgentid(1);
+        txtMsg.setMsgtype("text");
+        Text txt = new Text();
+        txt.setContent("单独消息aaa");
+        txtMsg.setText(txt);
+        txtMsg.setTouser("04707");
+        txtMsg.setToparty("");
+        txtMsg.setTotag("");
 		pushService.pushMsg(txtMsg);
 	}
 }

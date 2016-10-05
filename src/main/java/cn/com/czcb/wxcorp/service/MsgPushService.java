@@ -1,8 +1,10 @@
 package cn.com.czcb.wxcorp.service;
 
+import java.awt.image.RescaleOp;
 import java.io.IOException;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -16,12 +18,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import wxcorp.TestMsgPushService;
 import cn.com.czcb.wxcorp.constant.URLConstant;
 import cn.com.czcb.wxcorp.dao.AccessTokenDao;
+import cn.com.czcb.wxcorp.pojo.HttpResult;
 import cn.com.czcb.wxcorp.pojo.WxPushMsgResp;
 import cn.com.czcb.wxcorp.pojo.WxPushMsgTextMsgReq;
-import cn.com.czcb.wxcorp.pojo.Text;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,27 +31,33 @@ public class MsgPushService {
 	private static Logger logger = LogManager.getLogger(MsgPushService.class);
 
 	@Autowired
-	private AccessTokenDao  accessTokenDao;
-	
+	private AccessTokenDao accessTokenDao;
+
+	@Autowired
+	private ApiService apiService;
+
 	public WxPushMsgResp pushMsg(WxPushMsgTextMsgReq txtMsg) throws ClientProtocolException, IOException{
 		
 		String accessToken = accessTokenDao.getFromFile();
-		
-		CloseableHttpClient httpClient = HttpClients.createDefault();
 		String url = URLConstant.MSG_SEND + accessToken;
-        HttpPost post = new HttpPost(url);
-        
-        ObjectMapper om = new ObjectMapper();
+		ObjectMapper om = new ObjectMapper();
         String json = om.writeValueAsString(txtMsg);
         logger.info("推送发送请求：" +json);
-        HttpEntity entity = new StringEntity(json,ContentType.create("text/plain", "UTF-8"));
-        post.setEntity( entity);
         
-        CloseableHttpResponse response = httpClient.execute(post);
-        String respStr = EntityUtils.toString(response.getEntity());
-        ObjectMapper ob = new ObjectMapper();
-        WxPushMsgResp resp = ob.readValue(respStr, WxPushMsgResp.class);
+        HttpResult result = apiService.doPostJson(url, json);
+        
+//      HttpEntity entity = new StringEntity(json,ContentType.create("text/plain", "UTF-8"));
+//      post.setEntity( entity);
+        WxPushMsgResp resp = new WxPushMsgResp();
+        if( result.getCode() == HttpStatus.SC_OK){
+        	ObjectMapper ob = new ObjectMapper();
+        	ob.readValue(result.getData(), WxPushMsgResp.class);
+        	if( resp.getErrcode() != 0){
+            	throw new IOException("推送消息失败"+resp.toString());
+            }
+        }else{
+        	throw new IOException("推送消息失败"+ result.getCode()+":"+result.getData());
+        }
         return resp;
 	}
-
 }

@@ -33,39 +33,28 @@ import cn.com.czcb.wxcorp.pojo.Userlist;
 @Service
 public class UserService {
 	private static Logger logger = LogManager.getLogger(UserService.class);
-
+	
+	@Autowired
+	private ApiService apiService;
 	@Autowired
 	private AccessTokenDao accessTokenDao;
 
-	public List<Userlist> getSimpleList() throws JsonParseException, JsonMappingException, IOException {
+	public List<Userlist> getSimpleList(String deptID) throws JsonParseException, JsonMappingException, IOException {
 		String accessToken = accessTokenDao.getFromFile();
 		String url = String.format(URLConstant.USER_SIMPLE_LIST, accessToken,
-				1, ConstFetchChild.GetRecursiveNo, ConstUserStatus.ALL);
+				deptID, ConstFetchChild.GetRecursiveYes, ConstUserStatus.ALL);
 		;
 
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		HttpGet get = new HttpGet(url);
-
-		HttpResponse response = httpClient.execute(get);
+		String response = apiService.doGet(url);
+		
 
 		logger.info(response.toString());
 		List<Userlist> users = new ArrayList<Userlist>();
-		if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-
-			HttpEntity entity = response.getEntity();
-			String str = EntityUtils.toString(entity);
-			logger.info(str);
-
-			ObjectMapper om = new ObjectMapper();
-			UserSimpleList simpleUsers = om.readValue(str,
-					UserSimpleList.class);
-			users =  simpleUsers.getUserlist();
-			
-			get.abort();
-		} else {
-			get.abort();
-			throw new RuntimeException("获取AccessToken失败");
-		}
+		ObjectMapper om = new ObjectMapper();
+		UserSimpleList simpleUsers = om.readValue(response,
+				UserSimpleList.class);
+		users =  simpleUsers.getUserlist();
+		
 		return users;
 	}
 }

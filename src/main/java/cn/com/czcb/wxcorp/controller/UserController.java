@@ -22,24 +22,26 @@ import cn.com.czcb.wxcorp.constant.URLConstant;
 import cn.com.czcb.wxcorp.dao.AccessTokenDao;
 import cn.com.czcb.wxcorp.pojo.Department;
 import cn.com.czcb.wxcorp.pojo.DepartmentQryResp;
+import cn.com.czcb.wxcorp.pojo.Userlist;
 import cn.com.czcb.wxcorp.service.DepartmentService;
+import cn.com.czcb.wxcorp.service.UserService;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
-public class DepartmentController {
+public class UserController {
 
-	private static Logger logger = LogManager.getLogger(DepartmentController.class);
+	private static Logger logger = LogManager.getLogger(UserController.class);
 	@Autowired
-	private DepartmentService departmentService;
+	private UserService userService;
 
-	@RequestMapping("/dept/qry")
-	public String qryDepartment( Model model) throws IOException {
+	@RequestMapping("/user/qry")
+	public String qryDepartment( String deptID, Model model) throws IOException {
 		
-		List<Department> depts = departmentService.getDepartments("1");
-		model.addAttribute("depts", depts);
-		return "dept/qry";
+		List<Userlist> users = userService.getSimpleList(deptID);
+		model.addAttribute("users", users);
+		return "user/qry";
 	}
 }

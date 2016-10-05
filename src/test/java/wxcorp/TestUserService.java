@@ -35,7 +35,7 @@ public class TestUserService {
 	
 	@Test
 	public void getSimpleList() throws JsonParseException, JsonMappingException, IOException{
-		List<Userlist> users = userService.getSimpleList();
+		List<Userlist> users = userService.getSimpleList("1");
 		
 		for (Userlist userlist : users) {
 			System.out.println(userlist.toString());
