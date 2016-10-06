@@ -71,4 +71,13 @@ public class WxPushMsgTextMsgReq {
 	public int getSafe() {
 		return safe;
 	}
+
+	@Override
+	public String toString() {
+		return "WxPushMsgTextMsgReq [touser=" + touser + ", toparty=" + toparty
+				+ ", totag=" + totag + ", msgtype=" + msgtype + ", agentid="
+				+ agentid + ", text=" + text + ", safe=" + safe + "]";
+	}
+	
+	
 }

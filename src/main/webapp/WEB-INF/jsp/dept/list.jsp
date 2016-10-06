@@ -7,26 +7,27 @@
 <body>
 	<%@ include file="/WEB-INF/jsp/share/nav.jsp"%>
 	<div class="container">
+	<br/>
+	<br/>
 	部门列表
 	<table width="100%">
 		<thead>
 			<tr>
-				<th width="30%">id</th>
+				<th width="10%">id</th>
 				<th width="20%">名称</th>
-				<th width="30%">部门id</th>
-				<th width="20%">操作 </th>
+				<th width="10%">父id</th>
+				<th width="60%">操作 </th>
 			</tr>
 		</thead>
-		<c:forEach items="${users}" var="u">
+		<c:forEach items="${depts}" var="dept">
 			<tr>
-			<td>${u.userid}</td>
-			<td>${u.name}</td>
+			<td>${dept.id}</td>
+			<td>${dept.name}</td>
+			<td>${dept.parentid}</td>
 			<td>
-			<c:forEach items="${u.department}" var="d">
-				${d} &nbsp;
-			</c:forEach>
+				<a href="${ctx}/user?deptID=${dept.id}">查看人员</a>
+				<a href="${ctx}/msg?toparty=${dept.id}">发送</a>
 			</td>
-			<td><a href="${ctx}/user/qry?detID=">ccc</a></td>
 			</tr>
 		</c:forEach>
 	

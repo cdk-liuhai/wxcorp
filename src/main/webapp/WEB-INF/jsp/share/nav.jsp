@@ -9,7 +9,8 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="${ctx }/">
-          	<img alt="logo" src="${ctx}/img/logo2_25_25.png">
+          	<%-- <img alt="logo" src="${ctx}/img/logo2_25_25.png"> --%>
+          	主页
           </a>
           <a class="navbar-brand" href="${ctx }/">
           

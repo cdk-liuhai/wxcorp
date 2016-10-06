@@ -42,12 +42,12 @@ public class VerifyController {
 		response.getWriter().write(echostrDecryped);
 	}
 	
-	@RequestMapping("/get-accesstoken")
-	public void getAccesstoken(HttpServletResponse response)
+	@RequestMapping("/accesstoken/update")
+	public String getAccesstoken(HttpServletResponse response)
 			throws IOException, AesException {
 
 		accessTokenService.updateAccessToken();
 		
-		response.getWriter().write("获取成功");
+		return "error/success";
 	}
 }

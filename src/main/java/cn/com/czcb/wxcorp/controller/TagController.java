@@ -1,6 +1,7 @@
 package cn.com.czcb.wxcorp.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.http.client.ClientProtocolException;
@@ -14,28 +15,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cn.com.czcb.wxcorp.pojo.Taglist;
 import cn.com.czcb.wxcorp.pojo.WxPushMsgTextMsgReq;
 import cn.com.czcb.wxcorp.service.AccessTokenService;
 import cn.com.czcb.wxcorp.service.MsgPushService;
+import cn.com.czcb.wxcorp.service.TagService;
 
 @Controller
-public class MessageController {
-	private static Logger logger = LogManager.getLogger(MessageController.class);
+public class TagController {
+	private static Logger logger = LogManager.getLogger(TagController.class);
 
 	@Autowired
-	MsgPushService pushService;
+	TagService tagService;
 	
-	@RequestMapping( value="/msg", method=RequestMethod.GET)
-	public String inputTextMsg(WxPushMsgTextMsgReq msg, Model model){
-		logger.info(msg.toString());
-		model.addAttribute("msg", msg);
-		return "msg/input";
+	@RequestMapping( value="/tag", method=RequestMethod.GET)
+	public String inputTextMsg(Model model) throws IOException{
+		List<Taglist> tags = tagService.getTags();
+		model.addAttribute("tags", tags);
+		return "tag/list";
 	}
 	
-	@RequestMapping( value="/msg", method=RequestMethod.POST)
-	public String pushTextMsg(WxPushMsgTextMsgReq msg) throws IOException{
-		
-		pushService.pushMsg(msg);
-		return "error/success";
-	}
 }

@@ -19,6 +19,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ import cn.com.czcb.wxcorp.pojo.HttpResult;
 
 @Service
 public class ApiService {
+	private static Logger logger = LogManager.getLogger(ApiService.class);
+
     @Autowired
     private CloseableHttpClient httpClient;
     @Autowired
@@ -39,6 +43,7 @@ public class ApiService {
      * @throws IOException
      */
     public String doGet(String url) throws IOException {
+    	logger.info("发送get请求：" +url);
         //创建httpClient对象
         CloseableHttpResponse response = null;
         HttpGet httpGet = new HttpGet(url);
@@ -49,7 +54,9 @@ public class ApiService {
             response = httpClient.execute(httpGet);
             //判断返回状态码是否为200
             if (response.getStatusLine().getStatusCode() == 200) {
-                return EntityUtils.toString(response.getEntity(), "UTF-8");
+            	String respStr = EntityUtils.toString(response.getEntity(), "UTF-8");
+            	logger.info("get返回信息："+ respStr);
+                return respStr;
             }else{
             	throw new ClientProtocolException("doGet执行失败,状态非200");
             }
@@ -144,12 +151,18 @@ public class ApiService {
             // 将请求实体设置到httpPost对象中
             httpPost.setEntity(stringEntity);
         }
+        
+        logger.info("发送JSON请求：" +json);
+        
         CloseableHttpResponse response = null;
         try {
             // 执行请求
             response = this.httpClient.execute(httpPost);
-            return new HttpResult(response.getStatusLine().getStatusCode(),
+            HttpResult relResult = new HttpResult(response.getStatusLine().getStatusCode(),
                     EntityUtils.toString(response.getEntity(), "UTF-8"));
+            
+            logger.info(relResult.toString());
+            return relResult; 
         } finally {
             if (response != null) {
                 response.close();

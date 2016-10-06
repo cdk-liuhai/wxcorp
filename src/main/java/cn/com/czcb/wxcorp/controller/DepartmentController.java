@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.com.czcb.wxcorp.constant.URLConstant;
 import cn.com.czcb.wxcorp.dao.AccessTokenDao;
@@ -35,11 +36,11 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentService;
 
-	@RequestMapping("/dept/qry")
+	@RequestMapping(value="/dept", method=RequestMethod.GET)
 	public String qryDepartment( Model model) throws IOException {
 		
 		List<Department> depts = departmentService.getDepartments("1");
 		model.addAttribute("depts", depts);
-		return "dept/qry";
+		return "dept/list";
 	}
 }

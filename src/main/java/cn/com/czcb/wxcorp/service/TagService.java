@@ -23,36 +23,36 @@ import cn.com.czcb.wxcorp.controller.DepartmentController;
 import cn.com.czcb.wxcorp.dao.AccessTokenDao;
 import cn.com.czcb.wxcorp.pojo.Department;
 import cn.com.czcb.wxcorp.pojo.DepartmentQryResp;
+import cn.com.czcb.wxcorp.pojo.TagListResp;
+import cn.com.czcb.wxcorp.pojo.Taglist;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class DepartmentService {
+public class TagService {
 	private static Logger logger = LogManager
-			.getLogger(DepartmentService.class);
+			.getLogger(TagService.class);
 
 	@Autowired
 	private AccessTokenDao accessTokenDao;
 	@Autowired
 	private ApiService apiService;
 
-	public List<Department> getDepartments(String departmentID)
+	public List<Taglist> getTags()
 			throws IOException {
 		String accessToken = accessTokenDao.getFromFile();
-		String url = String.format(URLConstant.DEPARTMENT_LIST, accessToken,
-				departmentID);
-		List<Department> deps = new ArrayList<Department>();
+		String url = String.format(URLConstant.TAG_LIST, accessToken);
+		List<Taglist> tags = new ArrayList<Taglist>();
 			
 		String resp = apiService.doGet(url);
-		logger.info(resp.toString());
 		
 		ObjectMapper om = new ObjectMapper();
-		DepartmentQryResp departs = om.readValue(resp,
-				DepartmentQryResp.class);
-		if( departs.getErrcode() != 0){
-        	throw new IOException("推送消息失败"+departs.toString());
+		TagListResp tagListResp = om.readValue(resp,
+				TagListResp.class);
+		if( tagListResp.getErrcode() != 0){
+        	throw new IOException("推送消息失败"+tagListResp.toString());
         }
-		deps = departs.getDepartment();
-		return deps;
+		tags = tagListResp.getTaglist();
+		return tags;
 	}
 }

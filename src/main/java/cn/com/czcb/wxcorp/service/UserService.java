@@ -53,6 +53,10 @@ public class UserService {
 		ObjectMapper om = new ObjectMapper();
 		UserSimpleList simpleUsers = om.readValue(response,
 				UserSimpleList.class);
+		if( simpleUsers.getErrcode() != 0){
+        	throw new IOException("推送消息失败"+simpleUsers
+        			.toString());
+        }
 		users =  simpleUsers.getUserlist();
 		
 		return users;

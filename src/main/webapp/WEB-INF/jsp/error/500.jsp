@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<!-- /.col-lg-4 -->
-				<p><fmt:message key="error.500" /></p>
+				<p><%=exception.getMessage() %></p>
 			</div>
 		</div>
 		<!-- /.row -->

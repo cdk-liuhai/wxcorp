@@ -26,35 +26,21 @@ public class AccessTokenService {
 	private static Logger logger = LogManager.getLogger(AccessTokenService.class);
 
 	@Autowired
+	private ApiService apiService;
+	
+	@Autowired
 	private AccessTokenDao accessTokenDao;
 
 	public void updateAccessToken() throws ClientProtocolException, IOException {
 		String url = String.format(URLConstant.ACCESSTOKEN_GET,
 				URLConstant.BAOJING_CORPID, URLConstant.BAOJING_CORPSECRET);
-
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		HttpGet get = new HttpGet(url);
-
-		HttpResponse response = httpClient.execute(get);
-
-		logger.info(response.toString());
-		AccessToken accessToken = null;
-		if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-
-			HttpEntity entity = response.getEntity();
-			String str = EntityUtils.toString(entity);
-			System.out.println(str);
-
-			ObjectMapper om = new ObjectMapper();
-			accessToken = om.readValue(str, AccessToken.class);
-			if (accessToken.getAccessToken() == null) {
-				throw new RuntimeException("获取AccessToken失败");
-			}
-			accessTokenDao.updateAccessToken(accessToken);
-			get.abort();
-		} else {
-			get.abort();
-			throw new RuntimeException("获取AccessToken失败");
+		
+		String str = apiService.doGet(url);
+		ObjectMapper om = new ObjectMapper();
+		AccessToken accessToken = om.readValue(str, AccessToken.class);
+		if(accessToken.getAccessToken()==null){
+			throw new IOException("更新token失败:"+str);
 		}
+		accessTokenDao.updateAccessToken(accessToken);
 	}
 }

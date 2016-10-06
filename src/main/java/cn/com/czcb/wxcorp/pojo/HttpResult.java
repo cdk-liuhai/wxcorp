@@ -27,4 +27,9 @@ public class HttpResult {
     public void setData(String data) {
         this.data = data;
     }
+
+	@Override
+	public String toString() {
+		return "HttpResult [code=" + code + ", data=" + data + "]";
+	}
 }
