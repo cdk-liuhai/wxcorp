@@ -15,7 +15,7 @@
 	<input type="text" name="msgtype" hidden="true" value="text">
 	<table width="100%">
 		<tr>
-		<td width="20%">目标人员：</td><td><input type="text" name="touser" value=""${msg.touser }""/></td>
+		<td width="20%">目标人员：</td><td><input type="text" name="touser" value="${msg.touser }"/></td>
 		</tr>
 		<tr>
 		<td>目标部门:</td><td><input type="text" name="toparty" value="${msg.toparty }"/></td>

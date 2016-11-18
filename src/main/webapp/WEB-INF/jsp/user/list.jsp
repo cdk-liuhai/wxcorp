@@ -28,7 +28,9 @@
 				${d} &nbsp;
 			</c:forEach>
 			</td>
-			<td></td>
+			<td>
+			<a href="${ctx}/msg?touser=${u.userid}">发送</a>
+			</td>
 			</tr>
 		</c:forEach>
 	

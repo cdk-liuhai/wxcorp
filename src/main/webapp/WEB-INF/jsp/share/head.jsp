@@ -18,10 +18,8 @@
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"
 	rel="stylesheet">
 -->
-<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="${ctx}/css/vpn.css" rel="stylesheet">
+<link href="${ctx}/css/bootstrap.css" rel="stylesheet">
+<link href="${ctx}/css/my.css" rel="stylesheet">
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
