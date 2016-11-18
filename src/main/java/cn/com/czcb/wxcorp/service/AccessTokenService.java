@@ -38,12 +38,12 @@ public class AccessTokenService {
 	}
 	
 	
-	public void getAccessToken() throws ClientProtocolException, IOException  {
+	public String getAccessToken() throws ClientProtocolException, IOException  {
 		/*这里偷个懒，不写定时任务，也不搞错误重试了。
 		 * 每次调用api之前，都去取一次token。 
 		 * 报警应用，应该到不了微信调用的上限
 		 * */
 		updateAccessToken();
-		
+		return accessTokenDao.getFromFile();
 	}
 }

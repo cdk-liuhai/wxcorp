@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.czcb.wxcorp.constant.URLConstant;
-import cn.com.czcb.wxcorp.dao.AccessTokenDao;
 import cn.com.czcb.wxcorp.pojo.HttpResult;
 import cn.com.czcb.wxcorp.pojo.WxPushMsgResp;
 import cn.com.czcb.wxcorp.pojo.WxPushMsgTextMsgReq;
@@ -23,14 +22,14 @@ public class MsgPushService {
 	private static Logger logger = LogManager.getLogger(MsgPushService.class);
 
 	@Autowired
-	private AccessTokenDao accessTokenDao;
+	private AccessTokenService accessTokenService;
 
 	@Autowired
 	private ApiService apiService;
 
 	public WxPushMsgResp pushMsg(WxPushMsgTextMsgReq txtMsg) throws ClientProtocolException, IOException{
 		
-		String accessToken = accessTokenDao.getFromFile();
+		String accessToken = accessTokenService.getAccessToken();
 		String url = URLConstant.MSG_SEND + accessToken;
 		ObjectMapper om = new ObjectMapper();
         String json = om.writeValueAsString(txtMsg);
